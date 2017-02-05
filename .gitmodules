@@ -1,0 +1,3 @@
+[submodule "lua-inspect"]
+	path = lib/lua-inspect
+	url = git@github.com:davidm/lua-inspect.git

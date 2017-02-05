@@ -1,0 +1,9 @@
+#!/usr/bin/env lua
+
+local bin = arg and arg[0] or ''
+bin = bin:gsub('[/\\]?[^/\\]+$', ''):gsub('/bin$', '')
+bin = bin == '' and '.' or bin
+
+package.path = bin .. '/?.lua;' .. package.path
+
+require('onarum')

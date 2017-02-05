@@ -1,0 +1,8 @@
+deletestats = true
+
+exclude = {
+  'lib',
+  'onarum',
+  'prelude',
+  'spec'
+}
