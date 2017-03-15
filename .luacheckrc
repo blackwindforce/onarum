@@ -1,7 +1,7 @@
 allow_defined_top = true
 
 exclude_files = {
-  'lib/*'
+  'lib'
 }
 
 files.spec = {

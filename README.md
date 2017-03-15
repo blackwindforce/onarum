@@ -31,7 +31,7 @@ $ ./bin/onarum ./spec/fixtures/package.lua
 Specify your module dependencies.
 
 ```lua
-require('add')
+require('spec.fixtures.add')
 ```
 
 ### add.lua
@@ -73,7 +73,7 @@ require = require or function(modname)
   return package.loaded[modname]
 end
 
-function package.preload.add()
+package.preload['spec.fixtures.add'] = function()
 return function(x)
   return function(y)
     return x + y
@@ -88,7 +88,7 @@ end
 Use your modules as usual.
 
 ```lua
-print(require('add')(1)(2) == 3)
+print(require('spec.fixtures.add')(1)(2) == 3)
 ```
 
 ## Testing

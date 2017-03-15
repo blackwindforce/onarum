@@ -20,7 +20,7 @@ require = require or function(modname)
   return package.loaded[modname]
 end
 
-function package.preload.add()
+package.preload['spec.fixtures.add'] = function()
 return function(x)
   return function(y)
     return x + y

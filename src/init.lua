@@ -31,12 +31,15 @@ LI.inspect(ast, tkl, src, function(msg)
 end)
 
 local prelude = readfile(bin .. '/src/prelude.lua')
-local header = '\nfunction package.preload.%s()\n'
+local header = '\npackage.preload[\'%s\'] = function()\n'
 local footer = '\nend\n'
+local modname
 local chunks = { prelude }
-for modname, info in pairs(LI.package_loaded) do
+for _, info in pairs(LI.package_loaded) do
+  path = info[2].nocollect.source:gsub('^@', '')
+  modname = path:gsub('^%./', ''):gsub('/', '.'):gsub('%.lua$', '')
   chunks[#chunks + 1] = header:format(modname)
-  chunks[#chunks + 1] = readfile(info[2].nocollect.source:gsub('@', ''))
+  chunks[#chunks + 1] = readfile(path)
   chunks[#chunks + 1] = footer
 end
 

@@ -1,1 +1,1 @@
-require('add')
+require('spec.fixtures.add')
