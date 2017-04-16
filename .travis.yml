@@ -1,0 +1,16 @@
+language: python
+
+env:
+  - LUA="lua 5.1"
+
+install:
+  - pip install hererocks
+  - hererocks env --$LUA -r latest
+  - source env/bin/activate
+  - luarocks install busted
+  - luarocks install luacov
+  - luarocks install luacov-coveralls
+
+script: busted
+
+after_success: luacov-coveralls

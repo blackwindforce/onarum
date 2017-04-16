@@ -1,24 +1,24 @@
 # Onarum
 
-Lua `require` polyfill for constrained environment.
-
-**Note: `onarum` can't use as a command right now, you have to use `onarum`
-under `/bin` instead.**
+[![Build Status](https://travis-ci.org/blackwindforce/onarum.svg?branch=master)](https://travis-ci.org/blackwindforce/onarum)
+[![Coverage Status](https://coveralls.io/repos/github/blackwindforce/onarum/badge.svg?branch=master)](https://coveralls.io/github/blackwindforce/onarum?branch=master)
 
 ## Prerequisite
 
-* [Lua 5.1](https://www.lua.org/download.html)
+* [Lua 5.1](https://www.lua.org/)
 
-## Install
+## Installation
 
 ```sh
 $ git clone git@github.com:blackwindforce/onarum.git
 $ cd onarum
-$ git submodule init
-$ git submodule update
+$ git submodule update --init
 ```
 
 ## Usage
+
+**Note: `onarum` CAN NOT use as a system executable due to `luarocks` does not
+support `git submodule`, you MUST use `onarum` under `/bin` instead.**
 
 ```sh
 $ ./bin/onarum ./spec/fixtures/package.lua
@@ -67,6 +67,7 @@ package.preload = package.preload or {}
 
 require = require or function(modname)
   if not package.loaded[modname] then
+    assert(package.preload[modname], ("module '%s' not found"):format(modname))
     local mod = package.preload[modname]()
     package.loaded[modname] = mod == nil or mod
   end

@@ -53,12 +53,16 @@ insulate('prelude', function()
     end)
 
     it('should not require globals', function()
-      assert.has_error(function() require__('_VERSION') end)
+      assert.error_matches(function()
+        require__('_VERSION')
+      end, "module '_VERSION' not found")
     end)
 
     it('should require once', function()
       local exp = {}
-      package_.preload.foo = spy.new(function() return exp end)
+      package_.preload.foo = spy.new(function()
+        return exp
+      end)
       local foo = require__('foo')
       assert.same(exp, package_.loaded.foo)
       assert.same(exp, foo)
@@ -67,7 +71,7 @@ insulate('prelude', function()
     end)
 
     it('should require true', function()
-      package_.preload.foo = function() return end
+      package_.preload.foo = function() end
       local foo = require__('foo')
       assert.is_true(foo)
     end)

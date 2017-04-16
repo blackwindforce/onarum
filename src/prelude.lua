@@ -14,6 +14,7 @@ package.preload = package.preload or {}
 
 require = require or function(modname)
   if not package.loaded[modname] then
+    assert(package.preload[modname], ("module '%s' not found"):format(modname))
     local mod = package.preload[modname]()
     package.loaded[modname] = mod == nil or mod
   end

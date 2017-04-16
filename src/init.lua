@@ -31,7 +31,7 @@ LI.inspect(ast, tkl, src, function(msg)
 end)
 
 local prelude = readfile(bin .. '/src/prelude.lua')
-local header = '\npackage.preload[\'%s\'] = function()\n'
+local header = "\npackage.preload['%s'] = function()\n"
 local footer = '\nend\n'
 local modname
 local chunks = { prelude }

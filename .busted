@@ -1,5 +1,5 @@
 return {
-  _all = {
+  default = {
     coverage = true
   }
 }
