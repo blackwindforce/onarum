@@ -26,9 +26,13 @@ assert(ast, table.concat({ err, row, col }, '\n'))
 local tkl = LA.ast_to_tokenlist(ast, src)
 
 local LI = require('luainspect.init')
+local warnings = {}
 LI.inspect(ast, tkl, src, function(msg)
-  assert(not msg:match('warning'), msg)
+  if msg:find('warning') then
+    warnings[#warnings + 1] = msg .. '\n'
+  end
 end)
+io.stderr:write(table.concat(warnings))
 
 local prelude = readfile(bin .. '/src/prelude.lua')
 local header = "\npackage.preload['%s'] = function()\n"
