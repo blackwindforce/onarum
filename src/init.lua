@@ -1,4 +1,4 @@
-assert(arg and #arg == 1, 'missing package file')
+assert(arg and #arg >= 1, 'missing package file')
 
 local function readfile(filename)
   local file = assert(io.open(filename))
@@ -12,7 +12,11 @@ local src = readfile(path)
 
 local bin = arg and arg[0] or ''
 bin = bin:gsub('[/\\]?[^/\\]+$', ''):gsub('/bin$', '')
-bin = bin == '' and '.' or bin
+bin = (bin == '') and '.' or bin
+
+local modulePath = arg[2] and arg[2] or ''
+modulePath = modulePath:gsub('/', '.')
+modulePath = (modulePath ~= '') and modulePath .. '.' or nil
 
 package.path = table.concat({
   bin .. '/lib/lua-inspect/lib/?.lua;',
@@ -41,7 +45,8 @@ local modname
 local chunks = { prelude }
 for _, info in pairs(LI.package_loaded) do
   path = info[2].nocollect.source:gsub('^@', '')
-  modname = path:gsub('^%./', ''):gsub('/', '.'):gsub('%.lua$', '')
+  local shortPath = modulePath and path:gsub(modulePath, '') or path
+  modname = shortPath:gsub('^%./', ''):gsub('/', '.'):gsub('%.lua$', '')
   chunks[#chunks + 1] = header:format(modname)
   chunks[#chunks + 1] = readfile(path)
   chunks[#chunks + 1] = footer
