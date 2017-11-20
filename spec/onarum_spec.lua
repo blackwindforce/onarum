@@ -10,7 +10,18 @@ insulate('onarum', function()
   insulate('when circular referrence', function()
     it('should output warning', function()
       _G.arg = { 'spec/fixtures/circular-referrence.lua' }
-      require('onarum')
+      assert.is_error(function()
+        require('onarum')
+      end, 'erorr happened during compilation')
+    end)
+  end)
+
+  insulate('when file does not found', function()
+    it('should output warning', function()
+      _G.arg = { 'spec/fixtures/not-found.lua' }
+      assert.is_error(function()
+        require('onarum')
+      end, 'erorr happened during compilation')
     end)
   end)
 

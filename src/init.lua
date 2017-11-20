@@ -33,10 +33,15 @@ local LI = require('luainspect.init')
 local warnings = {}
 LI.inspect(ast, tkl, src, function(msg)
   if msg:find('warning') then
-    warnings[#warnings + 1] = msg .. '\n'
+    warnings[#warnings + 1] = msg
   end
 end)
-io.stderr:write(table.concat(warnings))
+
+if #warnings > 0 then
+  local message = table.concat(warnings, '\n')
+  io.stderr:write(message..'\n')
+  error('erorr happened during compilation')
+end
 
 local prelude = readfile(bin .. '/src/prelude.lua')
 local header = "\npackage.preload['%s'] = function()\n"
