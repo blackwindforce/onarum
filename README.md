@@ -9,7 +9,7 @@
 
 ## Installation
 
-```sh
+```bash
 $ git clone git@github.com:blackwindforce/onarum.git
 $ cd onarum
 $ git submodule update --init
@@ -17,18 +17,31 @@ $ git submodule update --init
 
 ## Usage
 
-**Note: `onarum` CAN NOT use as a system executable due to `luarocks` does not
-support `git submodule`, you MUST use `onarum` under `/bin` instead.**
+```
+SYNOPSIS
+  onarum <package> [<path>]
 
-```sh
-$ ./bin/onarum ./spec/fixtures/package.lua
+OPTIONS
+  <path>
+    Similar to `package.path` in Lua, but simply remove the provided path from
+    module name in `package.preload`, which shorten module names in the program.
+
+EXAMPLE 1
+  onarum package.lua > bundle.lua
+
+EXAMPLE 2
+  onarum package.lua ./lib/lua-inspect/lib/ > bundle.lua
+
+CAVEATS
+  `onarum` CAN NOT use as a system executable due to `luarocks` does not support
+  `git submodule`, you MUST use `onarum` under `/bin` instead.
 ```
 
 ## Example
 
 ### package.lua
 
-Specify your module dependencies.
+Require module dependencies.
 
 ```lua
 require('spec.fixtures.add')
@@ -36,7 +49,7 @@ require('spec.fixtures.add')
 
 ### add.lua
 
-Write your modules as usual.
+Write modules as usual.
 
 ```lua
 return function(x)
@@ -48,7 +61,7 @@ end
 
 ### bundle.lua
 
-Preload your modules in bundle.
+Preload modules in the bundle.
 
 ```lua
 package = package or {}
@@ -86,7 +99,7 @@ end
 
 ### init.lua
 
-Use your modules as usual.
+Use modules as usual.
 
 ```lua
 print(require('spec.fixtures.add')(1)(2) == 3)
@@ -94,7 +107,7 @@ print(require('spec.fixtures.add')(1)(2) == 3)
 
 ## Testing
 
-```sh
+```bash
 $ luarocks install busted
 $ luarocks install luacheck
 $ luarocks install luacov
